@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wizard SYSTEM "Wizard.dtd">
+
+<wizard>
+	<plugin type="dialogos.plugin.ros">
+		<att name="ROS_MASTER_URI" type="string" value="http://192.168.56.101:11311"/>
+		<att name="ROS_IP" type="string" value="192.168.56.1"/>
+	</plugin>
+	<plugin type="dialogos.plugin.tts">
+	</plugin>
+	<plugin type="dialogos.plugin.sphinx">
+		<att name="language" type="string" value="de_DE"/>
+	</plugin>
+	<graph directed="1" Graphic="1" Layout="points">
+		<att name="width" type="integer" value="1065"/>
+		<att name="height" type="integer" value="554"/>
+		<groovyFunctions></groovyFunctions>
+		<node uid="20abd1a3-0104-4ba7-8895-59c5c010848c" class="com.clt.diamant.graph.nodes.EndNode">
+			<graphics x="379" y="369" fill="#9999ff"/>
+			<att name="title" type="string" value="End"/>
+		</node>
+		<node uid="37711464-5741-4e30-9300-d4e83985ed9c" class="com.clt.diamant.graph.nodes.SleepNode">
+			<graphics x="387" y="293" fill="#99ffff"/>
+			<att name="title" type="string" value="Wait"/>
+			<att name="time" type="string" value="0"/>
+		</node>
+		<node uid="4736a35b-afc1-4bbf-8343-802d3448cdd9" class="com.clt.diamant.graph.nodes.StartNode">
+			<graphics x="370" y="40" fill="#9999ff"/>
+			<att name="title" type="string" value="Start"/>
+		</node>
+		<node uid="9fd90865-c377-482d-997b-6935105b66c1" class="com.clt.diamant.graph.nodes.SleepNode">
+			<graphics x="405" y="118" fill="#99ffff"/>
+			<att name="title" type="string" value="Wait"/>
+			<att name="time" type="string" value="300"/>
+		</node>
+		<node uid="de48f1ce-e64f-4fdc-ad7e-864b33c5b053" class="app.dialogos.ros.plugin.ROSNode">
+			<graphics x="366" y="202" fill="#c0c0c0"/>
+			<att name="title" type="string" value="ROS"/>
+			<att name="rosTopic" type="string" value="newtopic"/>
+			<att name="rosMessageExpression" type="string" value="'hello world'"/>
+		</node>
+		<edge src="37711464-5741-4e30-9300-d4e83985ed9c" tgt="20abd1a3-0104-4ba7-8895-59c5c010848c">
+		</edge>
+		<edge src="4736a35b-afc1-4bbf-8343-802d3448cdd9" tgt="9fd90865-c377-482d-997b-6935105b66c1">
+		</edge>
+		<edge src="9fd90865-c377-482d-997b-6935105b66c1" tgt="de48f1ce-e64f-4fdc-ad7e-864b33c5b053">
+		</edge>
+		<edge src="de48f1ce-e64f-4fdc-ad7e-864b33c5b053" tgt="37711464-5741-4e30-9300-d4e83985ed9c">
+		</edge>
+	</graph>
+</wizard>

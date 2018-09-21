@@ -1,0 +1,32 @@
+plugins {
+  id 'java'
+  id 'maven'
+  id 'application'
+}
+repositories {
+  jcenter()
+  mavenCentral()
+  maven { url "https://jitpack.io" }
+  maven {
+    url "http://github.com/rosjava/rosjava_mvn_repo/raw/master"
+  }
+}
+
+dependencies {
+  implementation(group:'com.github.dialogos-project', name:'dialogos', version:'v2.0.0') {
+    exclude module: 'DialogOS_SphinxPlugin'
+    exclude module: 'DialogOS_MaryTTSPlugin'
+    exclude module: 'TTSClient'
+    exclude module: 'SpeechClient'
+    exclude module: 'RecognizerClient'
+    exclude module: 'com.clt.audio'
+  }
+  compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
+  runtime group:'com.github.dialogos-project', name:'dialogos', version:'v2.0.0'
+
+  compile 'org.slf4j:slf4j-api:1.7.24'
+  testCompile 'junit:junit:4.12'
+}
+def version = '1.0'
+
+mainClassName = 'com.clt.dialogos.DialogOS'
