@@ -1,0 +1,16 @@
+/.nb-gradle/
+/*/build/
+/plugins/*/build/
+/*/out/
+/plugins/*/out/
+/com.clt.script/src/main/java/com/clt/script/parser/Lexer.java
+/com.clt.script/src/main/java/com/clt/script/parser/Parser.java
+/com.clt.script/src/main/java/com/clt/script/parser/Sym.java
+/com.clt.speech/src/main/java/com/clt/speech/htk/Lexer.java
+/com.clt.speech/src/main/java/com/clt/speech/htk/Parser.java
+/com.clt.speech/src/main/java/com/clt/speech/htk/Sym.java
+/build/
+Diamant/src/main/resources/VERSION
+/log/
+/.gradle/
+/.idea/

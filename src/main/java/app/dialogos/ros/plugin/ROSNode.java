@@ -7,6 +7,8 @@ import com.clt.diamant.WozInterface;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.gui.NodePropertiesDialog;
+import com.clt.script.exp.Value;
+import com.clt.script.exp.values.StringValue;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import org.xml.sax.SAXException;
@@ -39,7 +41,18 @@ public class ROSNode extends Node {
     @Override
     public Node execute(WozInterface wozInterface, InputCenter inputCenter, ExecutionLogger executionLogger) {
         ROSPluginRuntime runtime = (ROSPluginRuntime) this.getPluginRuntime(ROSPlugin.class, wozInterface);
-        runtime.sendMessage(getProperty(TOPIC).toString(), getProperty(MESSAGE).toString());
+        String expressionString = getProperty(MESSAGE).toString();
+        Value v;
+        String message;
+        try {
+            v = this.parseExpression(expressionString).evaluate();
+            message = ((StringValue) v).getString();
+        } catch (Exception e) {
+            // ignore the exception,
+            // attempt to interpret the input as SQL directly
+            message = expressionString;
+        }
+        runtime.sendMessage(getProperty(TOPIC).toString(), message);
         return getEdge(0).getTarget();
     }
 
