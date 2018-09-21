@@ -48,8 +48,7 @@ public class ROSNode extends Node {
             v = this.parseExpression(expressionString).evaluate();
             message = ((StringValue) v).getString();
         } catch (Exception e) {
-            // ignore the exception,
-            // attempt to interpret the input as SQL directly
+            // ignore the exception, and send the expression as is.
             message = expressionString;
         }
         runtime.sendMessage(getProperty(TOPIC).toString(), message);
