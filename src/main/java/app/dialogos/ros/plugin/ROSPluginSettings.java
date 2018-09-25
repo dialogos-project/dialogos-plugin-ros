@@ -22,11 +22,17 @@ public class ROSPluginSettings extends PluginSettings {
     StringProperty rosMasterURI = new DefaultStringProperty("ROS_MASTER_URI", "ROS_MASTER_URI", "URI und which ROScore can be reached", "http://127.0.0.1:11311");
     StringProperty rosIP = new DefaultStringProperty("ROS_IP", "ROS_IP","IP under which this node can be reached by other nodes", "127.0.0.1");
 
-    transient Multiset<String> topics = ConcurrentHashMultiset.create(); // topics are added from a propertyChangeListener in ROSNode
+    transient Multiset<String> publishableTopics = ConcurrentHashMultiset.create(); // publishableTopics are added from a propertyChangeListener in ROSNode
+    transient Multiset<String> subscribedTopics = ConcurrentHashMultiset.create(); // publishableTopics are added from a propertyChangeListener in ROSNode
 
-    void changeTopic(String oldTopic, String newTopic) {
-        topics.remove(oldTopic);
-        topics.add(newTopic);
+    void changePublTopic(String oldTopic, String newTopic) {
+        publishableTopics.remove(oldTopic);
+        publishableTopics.add(newTopic);
+    }
+
+    void changeSubsTopic(String oldTopic, String newTopic) {
+        subscribedTopics.remove(oldTopic);
+        subscribedTopics.add(newTopic);
     }
 
     @Override
@@ -53,7 +59,10 @@ public class ROSPluginSettings extends PluginSettings {
 
     @Override
     protected PluginRuntime createRuntime(Component component) {
-        PluginRuntime pr = new ROSPluginRuntime(this.rosMasterURI.getValue(), this.rosIP.getValue(), Collections.unmodifiableSet(topics.elementSet()));  // TODO: add ROS_MASTER_URI and ROS_IP parameters here
+        PluginRuntime pr = new ROSPluginRuntime(this.rosMasterURI.getValue(),
+                                                this.rosIP.getValue(),
+                Collections.unmodifiableSet(publishableTopics.elementSet()),
+                Collections.unmodifiableSet(subscribedTopics.elementSet()));
         return pr;
     }
 }

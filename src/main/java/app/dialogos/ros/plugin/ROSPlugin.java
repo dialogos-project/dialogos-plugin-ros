@@ -12,7 +12,7 @@ public class ROSPlugin implements com.clt.dialogos.plugin.Plugin {
     @Override
     public void initialize() {
         Node.registerNodeTypes(com.clt.speech.Resources.getResources().createLocalizedString("ScriptNode"),
-                Arrays.asList(new Class<?>[] { ROSNode.class})
+                Arrays.asList(new Class<?>[] { ROSInputNode.class, ROSOutputNode.class })
         );
     }
 

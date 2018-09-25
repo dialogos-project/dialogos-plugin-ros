@@ -12,9 +12,21 @@
 		<att name="language" type="string" value="de_DE"/>
 	</plugin>
 	<graph directed="1" Graphic="1" Layout="points">
-		<att name="width" type="integer" value="1065"/>
-		<att name="height" type="integer" value="554"/>
+		<att name="width" type="integer" value="1218"/>
+		<att name="height" type="integer" value="560"/>
 		<groovyFunctions></groovyFunctions>
+		<variable uid="7f99d1eb-267b-4992-89ec-dbaeb966afc9">
+			<name>input</name>
+			<type>list</type>
+			<value>undefined</value>
+		</variable>
+		<node uid="05e5c245-33fb-47de-8cbb-cb329db2c289" class="app.dialogos.ros.plugin.ROSInputNode">
+			<graphics x="554" y="178" fill="#c0c0c0"/>
+			<att name="title" type="string" value="ROSInput"/>
+			<att name="rosTopic" type="string" value="lalala"/>
+			<att name="resultVar" type="string" value="input"/>
+			<att name="waitForMessage" type="string" value="true"/>
+		</node>
 		<node uid="20abd1a3-0104-4ba7-8895-59c5c010848c" class="com.clt.diamant.graph.nodes.EndNode">
 			<graphics x="379" y="369" fill="#9999ff"/>
 			<att name="title" type="string" value="End"/>
@@ -33,19 +45,21 @@
 			<att name="title" type="string" value="Wait"/>
 			<att name="time" type="string" value="300"/>
 		</node>
-		<node uid="de48f1ce-e64f-4fdc-ad7e-864b33c5b053" class="app.dialogos.ros.plugin.ROSNode">
+		<node uid="de48f1ce-e64f-4fdc-ad7e-864b33c5b053" class="app.dialogos.ros.plugin.ROSOutputNode">
 			<graphics x="366" y="202" fill="#c0c0c0"/>
 			<att name="title" type="string" value="ROS"/>
-			<att name="rosTopic" type="string" value="newtopic"/>
+			<att name="rosTopic" type="string" value="lalala"/>
 			<att name="rosMessageExpression" type="string" value="'hello world'"/>
 		</node>
+		<edge src="05e5c245-33fb-47de-8cbb-cb329db2c289" tgt="37711464-5741-4e30-9300-d4e83985ed9c">
+		</edge>
 		<edge src="37711464-5741-4e30-9300-d4e83985ed9c" tgt="20abd1a3-0104-4ba7-8895-59c5c010848c">
 		</edge>
 		<edge src="4736a35b-afc1-4bbf-8343-802d3448cdd9" tgt="9fd90865-c377-482d-997b-6935105b66c1">
 		</edge>
-		<edge src="9fd90865-c377-482d-997b-6935105b66c1" tgt="de48f1ce-e64f-4fdc-ad7e-864b33c5b053">
+		<edge src="9fd90865-c377-482d-997b-6935105b66c1" tgt="05e5c245-33fb-47de-8cbb-cb329db2c289">
 		</edge>
-		<edge src="de48f1ce-e64f-4fdc-ad7e-864b33c5b053" tgt="37711464-5741-4e30-9300-d4e83985ed9c">
+		<edge src="de48f1ce-e64f-4fdc-ad7e-864b33c5b053">
 		</edge>
 	</graph>
 </wizard>

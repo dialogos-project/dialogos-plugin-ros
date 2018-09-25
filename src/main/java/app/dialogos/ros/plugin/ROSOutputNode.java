@@ -19,21 +19,21 @@ import java.util.Map;
 /**
  * dangerous naming: this is a DialogOS node that performs ROS tasks
  */
-public class ROSNode extends Node {
+public class ROSOutputNode extends Node {
 
     /** the topic to be written to */
     public static final String TOPIC = "rosTopic";
     /** expression that evaluates to what to write into the topic */
-    public static final String MESSAGE = "rosMessageExpression";
+    private static final String MESSAGE = "rosMessageExpression";
 
-    public ROSNode() {
+    public ROSOutputNode() {
         this.addEdge(); // have one port for an outgoing edge
         this.setProperty(TOPIC, ""); // avoid running into null-pointers later
         this.setProperty(MESSAGE, "");
         this.addPropertyChangeListener(evt -> {
             if (TOPIC.equals(evt.getPropertyName())) {
                 ROSPluginSettings pls = (ROSPluginSettings) this.getPluginSettings(ROSPlugin.class);
-                pls.changeTopic(evt.getOldValue().toString(), evt.getNewValue().toString());
+                pls.changePublTopic(evt.getOldValue().toString(), evt.getNewValue().toString());
             }
         });
     }
@@ -58,6 +58,7 @@ public class ROSNode extends Node {
     @Override
     protected JComponent createEditorComponent(Map<String, Object> properties) {
         JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         JPanel horiz = new JPanel();
         horiz.add(new JLabel("ROS topic"));
         horiz.add(NodePropertiesDialog.createTextField(properties, TOPIC));

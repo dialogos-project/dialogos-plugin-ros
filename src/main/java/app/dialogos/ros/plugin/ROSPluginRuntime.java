@@ -13,7 +13,7 @@ public class ROSPluginRuntime implements PluginRuntime {
     NodeMainExecutor nodeMainExecutor;
     ROSNodeMain nodeMain;
 
-    ROSPluginRuntime(String rosMasterURI, String rosIP, Collection<String> topics) {
+    ROSPluginRuntime(String rosMasterURI, String rosIP, Collection<String> publishableTopics, Collection<String> subscribedTopics) {
         URI masterURI = null;
          try {
             masterURI = new URI(rosMasterURI);
@@ -21,7 +21,7 @@ public class ROSPluginRuntime implements PluginRuntime {
             e.printStackTrace();
         }
         NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(rosIP, masterURI);
-        nodeMain = new ROSNodeMain(topics);
+        nodeMain = new ROSNodeMain(publishableTopics, subscribedTopics);
         nodeMainExecutor = DefaultNodeMainExecutor.newDefault();
         nodeMainExecutor.execute(nodeMain, nodeConfiguration);
         // wait until connected:
