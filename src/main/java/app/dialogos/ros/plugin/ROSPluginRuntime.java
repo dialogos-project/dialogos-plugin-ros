@@ -14,6 +14,11 @@ public class ROSPluginRuntime implements PluginRuntime {
     ROSNodeMain nodeMain;
 
     ROSPluginRuntime(String rosMasterURI, String rosIP, Collection<String> publishableTopics, Collection<String> subscribedTopics) {
+        // no need to connect if we're not supposed to do anything (most likely, the dialog model does not contain any ROS-IO-nodes
+        if (publishableTopics.isEmpty() && subscribedTopics.isEmpty()) {
+            return;
+        }
+        // otherwise, there's work to do:
         URI masterURI = null;
          try {
             masterURI = new URI(rosMasterURI);
