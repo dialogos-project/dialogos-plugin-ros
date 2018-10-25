@@ -56,7 +56,7 @@ public class ROSOutputNode extends Node {
     }
 
     @Override
-    protected JComponent createEditorComponent(Map<String, Object> properties) {
+    public JComponent createEditorComponent(Map<String, Object> properties) {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         JPanel horiz = new JPanel();
@@ -71,13 +71,14 @@ public class ROSOutputNode extends Node {
     }
 
     @Override
-    protected void writeAttributes(XMLWriter out, IdMap uid_map) {
+    public void writeAttributes(XMLWriter out, IdMap uid_map) {
         super.writeAttributes(out, uid_map);
         Graph.printAtt(out, TOPIC, this.getProperty(TOPIC).toString());
         Graph.printAtt(out, MESSAGE, this.getProperty(MESSAGE).toString());
     }
 
-    @Override protected void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException {
+    @Override
+    public void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException {
         if (name.equals(TOPIC) || name.equals(MESSAGE)) {
             this.setProperty(name, value);
         } else {
@@ -86,5 +87,5 @@ public class ROSOutputNode extends Node {
     }
 
     @Override
-    protected void writeVoiceXML(XMLWriter xmlWriter, IdMap idMap) { }
+    public void writeVoiceXML(XMLWriter xmlWriter, IdMap idMap) { }
 }

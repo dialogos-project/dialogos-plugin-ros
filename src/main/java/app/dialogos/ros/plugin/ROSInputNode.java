@@ -79,7 +79,7 @@ public class ROSInputNode extends Node {
     }
 
     @Override
-    protected JComponent createEditorComponent(Map<String, Object> properties) {
+    public JComponent createEditorComponent(Map<String, Object> properties) {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         JPanel horiz = new JPanel();
@@ -97,14 +97,15 @@ public class ROSInputNode extends Node {
     }
 
     @Override
-    protected void writeAttributes(XMLWriter out, IdMap uid_map) {
+    public void writeAttributes(XMLWriter out, IdMap uid_map) {
         super.writeAttributes(out, uid_map);
         Graph.printAtt(out, TOPIC, this.getProperty(TOPIC).toString());
         Graph.printAtt(out, RESULT_VAR, this.getProperty(RESULT_VAR).toString());
         Graph.printAtt(out, WAIT_FOR_MESSAGE, this.getProperty(WAIT_FOR_MESSAGE).toString());
     }
 
-    @Override protected void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException {
+    @Override
+    public void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException {
         if (name.equals(TOPIC) || name.equals(RESULT_VAR)) {
             setProperty(name, value);
         } else if (name.equals(WAIT_FOR_MESSAGE)) {
@@ -115,6 +116,6 @@ public class ROSInputNode extends Node {
     }
 
     @Override
-    protected void writeVoiceXML(XMLWriter xmlWriter, IdMap idMap) { }
+    public void writeVoiceXML(XMLWriter xmlWriter, IdMap idMap) { }
 
 }
