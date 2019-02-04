@@ -48,7 +48,7 @@ public class ROSPluginSettings extends PluginSettings {
 
     private static String getenv(String name, String defaultValue) {
         String value = System.getenv(name);
-        if (value.isEmpty()) {
+        if (value == null || value.isEmpty()) {
             value = defaultValue;
         }
         return value;
