@@ -10,7 +10,7 @@ import java.util.Collection;
 
 public class ROSPluginRuntime implements PluginRuntime {
 
-    NodeMainExecutor nodeMainExecutor;
+    private NodeMainExecutor nodeMainExecutor;
     ROSNodeMain nodeMain;
 
     ROSPluginRuntime(String rosMasterURI, String rosIP, Collection<String> publishableTopics, Collection<String> subscribedTopics) {
@@ -56,7 +56,8 @@ public class ROSPluginRuntime implements PluginRuntime {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        nodeMainExecutor.shutdownNodeMain(nodeMain);
+        if (nodeMainExecutor != null)
+            nodeMainExecutor.shutdownNodeMain(nodeMain);
     }
 
 }
