@@ -24,8 +24,8 @@ dependencies {
   compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
   runtime group:'com.github.dialogos-project', name:'dialogos', version:'2.1.0'
 
-  compile 'org.slf4j:slf4j-api:1.7.24'
-  testCompile 'junit:junit:4.12'
+  implementation 'org.slf4j:slf4j-api:1.7.24'
+  testImplementation 'junit:junit:4.12'
 }
 def version = '2.1.0'
 
