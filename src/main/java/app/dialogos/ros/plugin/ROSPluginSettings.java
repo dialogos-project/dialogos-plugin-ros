@@ -9,10 +9,12 @@ import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.Multiset;
+import org.ros.node.Node;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collections;
+import java.util.Set;
 
 public class ROSPluginSettings extends PluginSettings {
 
@@ -90,4 +92,11 @@ public class ROSPluginSettings extends PluginSettings {
                 Collections.unmodifiableSet(subscribedTopics.elementSet()));
         return pr;
     }
+
+    @Override
+    public boolean isRelevantForNodes(Set<Class<? extends com.clt.diamant.graph.Node>> nodeTypes) {
+        return nodeTypes.contains(ROSInputNode.class) ||
+                nodeTypes.contains(ROSOutputNode.class);
+    }
+
 }
