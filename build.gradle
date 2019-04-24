@@ -4,6 +4,7 @@ plugins {
   id 'application'
 }
 repositories {
+  mavenLocal()
   jcenter()
   mavenCentral()
   maven { url "https://jitpack.io" }
@@ -30,3 +31,19 @@ dependencies {
 def version = '2.1.0'
 
 mainClassName = 'com.clt.dialogos.DialogOS'
+
+
+
+apply plugin: 'maven-publish' // to provide "gradlew publishToMavenLocal"
+// configuration for maven-publish plugin
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.dialogos-project'
+            artifactId = 'dialogos-plugin-ros'
+	    version = version
+            from components.java
+        }
+    }
+}
+
