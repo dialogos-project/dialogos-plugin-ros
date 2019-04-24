@@ -33,6 +33,7 @@ def version = '2.1.0'
 mainClassName = 'com.clt.dialogos.DialogOS'
 
 
+project.version = version
 
 apply plugin: 'maven-publish' // to provide "gradlew publishToMavenLocal"
 // configuration for maven-publish plugin
