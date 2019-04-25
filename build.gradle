@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-  implementation(group:'com.github.dialogos-project', name:'dialogos', version:'2.1.0') {
+  implementation(group:'com.github.dialogos-project', name:'dialogos', version:'2.1.1') {
     exclude module: 'DialogOS_SphinxPlugin'
     exclude module: 'DialogOS_MaryTTSPlugin'
     exclude module: 'TTSClient'
@@ -23,12 +23,12 @@ dependencies {
     exclude module: 'com.clt.audio'
   }
   compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
-  runtime group:'com.github.dialogos-project', name:'dialogos', version:'2.1.0'
+  runtime group:'com.github.dialogos-project', name:'dialogos', version:'2.1.1'
 
   implementation 'org.slf4j:slf4j-api:1.7.24'
   testImplementation 'junit:junit:4.12'
 }
-def version = '2.1.0'
+def version = '2.1.1'
 
 mainClassName = 'com.clt.dialogos.DialogOS'
 
