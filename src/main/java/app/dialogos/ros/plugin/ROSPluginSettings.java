@@ -18,22 +18,27 @@ import java.util.Set;
 
 public class ROSPluginSettings extends PluginSettings {
 
+    static final boolean DEFAULT_ROS_FROM_ENV = true;
     BooleanProperty rosFromEnv = new DefaultBooleanProperty(
             "ROS_FROM_ENVIRONMENT",
             "ROS_FROM_ENVIRONMENT",
             "infer ROS settings from environment variables",
-            true
+            DEFAULT_ROS_FROM_ENV
     );
+    static final String DEFAULT_ROS_MASTER_URI = "http://127.0.0.1:11311";
     StringProperty rosMasterURI = new DefaultStringProperty(
             "ROS_MASTER_URI",
             "ROS_MASTER_URI",
             "URI und which ROScore can be reached",
-            getenv("ROS_MASTER_URI", "http://127.0.0.1:11311"));
+            DEFAULT_ROS_MASTER_URI
+            );
+    static final String DEFAULT_ROS_IP = "127.0.0.1";
     StringProperty rosIP = new DefaultStringProperty(
             "ROS_IP",
             "ROS_IP",
             "IP under which this node can be reached by other nodes",
-            getenv("ROS_IP", "127.0.0.1"));
+            DEFAULT_ROS_IP
+            );
 
     transient Multiset<String> publishableTopics = ConcurrentHashMultiset.create(); // publishableTopics are added from a propertyChangeListener in ROSNode
     transient Multiset<String> subscribedTopics = ConcurrentHashMultiset.create(); // publishableTopics are added from a propertyChangeListener in ROSNode
@@ -58,9 +63,12 @@ public class ROSPluginSettings extends PluginSettings {
 
     @Override
     public void writeAttributes(XMLWriter xmlWriter, IdMap idMap) {
-        Graph.printAtt(xmlWriter, rosFromEnv.getID(), rosFromEnv.getValue());
-        Graph.printAtt(xmlWriter, rosMasterURI.getID(), rosMasterURI.getValue());
-        Graph.printAtt(xmlWriter, rosIP.getID(), rosIP.getValue());
+        if (rosFromEnv.getValue() != (DEFAULT_ROS_FROM_ENV))
+            Graph.printAtt(xmlWriter, rosFromEnv.getID(), rosFromEnv.getValue());
+        if (!rosMasterURI.getValue().equals(DEFAULT_ROS_MASTER_URI))
+            Graph.printAtt(xmlWriter, rosMasterURI.getID(), rosMasterURI.getValue());
+        if (!rosIP.getValue().equals(DEFAULT_ROS_IP))
+            Graph.printAtt(xmlWriter, rosIP.getID(), rosIP.getValue());
     }
 
     @Override
