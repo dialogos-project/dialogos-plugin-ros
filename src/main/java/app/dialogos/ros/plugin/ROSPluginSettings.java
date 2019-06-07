@@ -20,25 +20,37 @@ public class ROSPluginSettings extends PluginSettings {
 
     static final boolean DEFAULT_ROS_FROM_ENV = true;
     BooleanProperty rosFromEnv = new DefaultBooleanProperty(
-            "ROS_FROM_ENVIRONMENT",
-            Resources.getString("ROS_FROM_ENVIRONMENT"),
-            Resources.getString("ROS_FROM_ENVIRONMENT_DESCRIPTION"),
-            DEFAULT_ROS_FROM_ENV
-    );
+            "ROS_FROM_ENVIRONMENT", null, null,
+            DEFAULT_ROS_FROM_ENV) {
+        @Override public String getName() {
+            return Resources.getString("ROS_FROM_ENVIRONMENT");
+        }
+        @Override public String getDescription() {
+            return Resources.getString("ROS_FROM_ENVIRONMENT_DESCRIPTION");
+        }
+    };
     static final String DEFAULT_ROS_MASTER_URI = "http://127.0.0.1:11311";
     StringProperty rosMasterURI = new DefaultStringProperty(
-            "ROS_MASTER_URI",
-            Resources.getString("ROS_MASTER_URI"),
-            Resources.getString("ROS_MASTER_URI_DESCRIPTION"),
-            DEFAULT_ROS_MASTER_URI
-            );
+            "ROS_MASTER_URI", null, null,
+            DEFAULT_ROS_MASTER_URI) {
+        @Override public String getName() {
+            return Resources.getString("ROS_MASTER_URI");
+        }
+        @Override public String getDescription() {
+            return Resources.getString("ROS_MASTER_URI_DESCRIPTION");
+        }
+    };
     static final String DEFAULT_ROS_IP = "127.0.0.1";
     StringProperty rosIP = new DefaultStringProperty(
-            "ROS_IP",
-            Resources.getString("ROS_IP"),
-            Resources.getString("ROS_IP_DESCRIPTION"),
-            DEFAULT_ROS_IP
-            );
+            "ROS_IP", null, null,
+            DEFAULT_ROS_IP) {
+        @Override public String getName() {
+            return Resources.getString("ROS_IP");
+        }
+        @Override public String getDescription() {
+            return Resources.getString("ROS_IP_DESCRIPTION");
+        }
+    };
 
     transient Multiset<String> publishableTopics = ConcurrentHashMultiset.create(); // publishableTopics are added from a propertyChangeListener in ROSNode
     transient Multiset<String> subscribedTopics = ConcurrentHashMultiset.create(); // publishableTopics are added from a propertyChangeListener in ROSNode
