@@ -21,22 +21,22 @@ public class ROSPluginSettings extends PluginSettings {
     static final boolean DEFAULT_ROS_FROM_ENV = true;
     BooleanProperty rosFromEnv = new DefaultBooleanProperty(
             "ROS_FROM_ENVIRONMENT",
-            "ROS_FROM_ENVIRONMENT",
-            "infer ROS settings from environment variables",
+            Resources.getString("ROS_FROM_ENVIRONMENT"),
+            Resources.getString("ROS_FROM_ENVIRONMENT_DESCRIPTION"),
             DEFAULT_ROS_FROM_ENV
     );
     static final String DEFAULT_ROS_MASTER_URI = "http://127.0.0.1:11311";
     StringProperty rosMasterURI = new DefaultStringProperty(
             "ROS_MASTER_URI",
-            "ROS_MASTER_URI",
-            "URI und which ROScore can be reached",
+            Resources.getString("ROS_MASTER_URI"),
+            Resources.getString("ROS_MASTER_URI_DESCRIPTION"),
             DEFAULT_ROS_MASTER_URI
             );
     static final String DEFAULT_ROS_IP = "127.0.0.1";
     StringProperty rosIP = new DefaultStringProperty(
             "ROS_IP",
-            "ROS_IP",
-            "IP under which this node can be reached by other nodes",
+            Resources.getString("ROS_IP"),
+            Resources.getString("ROS_IP_DESCRIPTION"),
             DEFAULT_ROS_IP
             );
 
