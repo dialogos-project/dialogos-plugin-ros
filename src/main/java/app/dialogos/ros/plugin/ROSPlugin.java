@@ -32,7 +32,7 @@ public class ROSPlugin implements com.clt.dialogos.plugin.Plugin {
     }
 
     @Override
-    public String getVersion() { return "1.0"; }   // DO NOT EDIT - This line is updated automatically by the make-release script.
+    public String getVersion() { return "2.1.3"; }   // DO NOT EDIT - This line is updated automatically by the make-release script.
 
     @Override
     public PluginSettings createDefaultSettings() {
