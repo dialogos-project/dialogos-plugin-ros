@@ -5,32 +5,39 @@ import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.NodeExecutionException;
 import com.clt.diamant.gui.NodePropertiesDialog;
+import com.clt.script.exp.Value;
 import com.clt.script.exp.types.ListType;
+import com.clt.script.exp.values.IntValue;
 import com.clt.script.exp.values.ListValue;
+import com.clt.script.exp.values.RealValue;
 import com.clt.script.exp.values.StringValue;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ROSInputNode extends Node {
 
     /** the topic to listen to */
-    public static final String TOPIC = "rosTopic";
+    private static final String TOPIC = "rosTopic";
     /** the variable to write the result into (as a list) */
     private static final String RESULT_VAR = "resultVar";
     private static final String WAIT_FOR_MESSAGE = "waitForMessage";
+    private static final String TIMEOUT = "timeout";
 
     public ROSInputNode() {
         addEdge(); // have one port for an outgoing edge
         setProperty(TOPIC, ""); // avoid running into null-pointers later
         setProperty(RESULT_VAR, "");
-        setProperty(WAIT_FOR_MESSAGE, Boolean.FALSE);
+        setProperty(WAIT_FOR_MESSAGE, Boolean.TRUE);
+        setProperty(TIMEOUT, "");
         addPropertyChangeListener(evt -> {
             if (TOPIC.equals(evt.getPropertyName())) {
                 ROSPluginSettings pls = (ROSPluginSettings) this.getPluginSettings(ROSPlugin.class);
@@ -46,15 +53,30 @@ public class ROSInputNode extends Node {
         // return results as a list
         List<String> messages = new ArrayList<>();
         if (getBooleanProperty(WAIT_FOR_MESSAGE)) {
-            // this call will block until a message is received:
             try {
-                messages.add(runtime.nodeMain.subscriptionMessageQueues.get(topic).take());
+                String timeoutString = getProperty(TIMEOUT).toString();
+                long timeout = -1;
+                if (!"".equals(timeoutString) && timeoutString != null) {
+                    try {
+                        Value v = this.parseExpression(timeoutString).evaluate();
+                        if (v instanceof IntValue) {
+                            timeout = ((IntValue) v).getInt();
+                        } else if (v instanceof RealValue) {
+                            timeout = (int) ((RealValue) v).getReal();
+                        }
+                    } catch (Exception e) {
+                        throw new NodeExecutionException(this, "unable to interpret timeout", e);
+                    }
+                    messages.add(runtime.nodeMain.subscriptionMessageQueues.get(topic).poll(timeout, TimeUnit.MILLISECONDS));
+                } else
+                    // this call will block until a message is received:
+                    messages.add(runtime.nodeMain.subscriptionMessageQueues.get(topic).take());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         runtime.nodeMain.subscriptionMessageQueues.get(topic).drainTo(messages);
-        ListValue messageList = new ListValue(messages.stream().map(m -> new StringValue(m)).collect(Collectors.toList()));
+        ListValue messageList = new ListValue(messages.stream().map(StringValue::new).collect(Collectors.toList()));
         // set variable to result of query
         String varName = getProperty(RESULT_VAR).toString();
         Slot var = getSlot(varName);
@@ -73,9 +95,8 @@ public class ROSInputNode extends Node {
     }
 
     private List<Slot> getListVariables() {
-        List<Slot> slots = this.getGraph().getAllVariables(Graph.LOCAL).
+        return this.getGraph().getAllVariables(Graph.LOCAL).
                 stream().filter(slot -> slot.getType() instanceof ListType).collect(Collectors.toList());
-        return slots;
     }
 
     @Override
@@ -83,16 +104,27 @@ public class ROSInputNode extends Node {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         JPanel horiz = new JPanel();
-        horiz.add(new JLabel("ROS topic"));
+        horiz.add(new JLabel("ROS topic "));
         horiz.add(NodePropertiesDialog.createTextField(properties, TOPIC));
         p.add(horiz);
         horiz = new JPanel();
-        horiz.add(new JLabel("return list of results to:"));
+        horiz.add(new JLabel("return list of results to: "));
         horiz.add(NodePropertiesDialog.createComboBox(properties, RESULT_VAR,
                 getListVariables())
         );
         p.add(horiz);
-        p.add(NodePropertiesDialog.createCheckBox(properties, WAIT_FOR_MESSAGE, "wait for at least one message"));
+        JCheckBox waitBox = NodePropertiesDialog.createCheckBox(properties, WAIT_FOR_MESSAGE, "wait for at least one message");
+        p.add(waitBox);
+        final JPanel fhoriz = new JPanel();
+        fhoriz.add(new JLabel("wait no longer than: "));
+        fhoriz.add(NodePropertiesDialog.createTextField(properties, TIMEOUT));
+        fhoriz.add(new JLabel(" milliseconds"));
+        waitBox.addItemListener(l -> {
+            for (Component c : fhoriz.getComponents()) {
+                c.setEnabled(waitBox.isSelected());
+            }
+        });
+        p.add(fhoriz);
         return p;
     }
 
