@@ -132,17 +132,34 @@ public class ROSInputNode extends Node {
     public void writeAttributes(XMLWriter out, IdMap uid_map) {
         super.writeAttributes(out, uid_map);
         Graph.printAtt(out, TOPIC, this.getProperty(TOPIC).toString());
-        Graph.printAtt(out, RESULT_VAR, this.getProperty(RESULT_VAR).toString());
+        Slot v = (Slot) this.getProperty(RESULT_VAR);
+        if (v != null) {
+            try {
+                String uid = uid_map.variables.getKey(v);
+                Graph.printAtt(out, RESULT_VAR, uid);
+            } catch (Exception exn) {
+            } // variable deleted
+        }
         Graph.printAtt(out, WAIT_FOR_MESSAGE, this.getProperty(WAIT_FOR_MESSAGE).toString());
+        Graph.printAtt(out, TIMEOUT, this.getProperty(TIMEOUT).toString());
     }
 
     @Override
     public void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException {
-        if (name.equals(TOPIC) || name.equals(RESULT_VAR)) {
+        if (name.equals(TOPIC) ) {
             setProperty(name, value);
-        } else if (name.equals(WAIT_FOR_MESSAGE)) {
+        } else if(name.equals(RESULT_VAR) & value != null) {
+            try {
+                this.setProperty(name, uid_map.variables.get(value));
+            } catch (Exception exn) {
+                this.setProperty(name, value);
+            }
+        } else if(name.equals(WAIT_FOR_MESSAGE)) {
             setProperty(name, Boolean.valueOf(value));
-        } else {
+        } else if(name.equals(TIMEOUT) & value != null) {
+            setProperty(name, value);
+        }
+        else {
             super.readAttribute(r, name, value, uid_map);
         }
     }
