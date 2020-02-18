@@ -21,6 +21,7 @@
 			<att name="rosTopic" type="string" value="lalala"/>
 			<att name="resultVar" type="string" value="7f99d1eb-267b-4992-89ec-dbaeb966afc9"/>
 			<att name="waitForMessage" type="string" value="true"/>
+			<att name="timeout" type="string" value=""/>
 		</node>
 		<node uid="20abd1a3-0104-4ba7-8895-59c5c010848c" class="com.clt.diamant.graph.nodes.EndNode">
 			<graphics x="379" y="369" fill="#9999ff"/>
