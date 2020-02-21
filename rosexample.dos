@@ -6,11 +6,6 @@
 		<att name="ROS_MASTER_URI" type="string" value="http://192.168.56.101:11311"/>
 		<att name="ROS_IP" type="string" value="192.168.56.1"/>
 	</plugin>
-	<plugin type="dialogos.plugin.tts">
-	</plugin>
-	<plugin type="dialogos.plugin.sphinx">
-		<att name="language" type="string" value="de_DE"/>
-	</plugin>
 	<graph directed="1" Graphic="1" Layout="points">
 		<att name="width" type="integer" value="1218"/>
 		<att name="height" type="integer" value="560"/>
@@ -24,8 +19,9 @@
 			<graphics x="554" y="178" fill="#c0c0c0"/>
 			<att name="title" type="string" value="ROSInput"/>
 			<att name="rosTopic" type="string" value="lalala"/>
-			<att name="resultVar" type="string" value="input"/>
+			<att name="resultVar" type="string" value="7f99d1eb-267b-4992-89ec-dbaeb966afc9"/>
 			<att name="waitForMessage" type="string" value="true"/>
+			<att name="timeout" type="string" value=""/>
 		</node>
 		<node uid="20abd1a3-0104-4ba7-8895-59c5c010848c" class="com.clt.diamant.graph.nodes.EndNode">
 			<graphics x="379" y="369" fill="#9999ff"/>
