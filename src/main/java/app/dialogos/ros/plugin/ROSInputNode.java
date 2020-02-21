@@ -67,7 +67,10 @@ public class ROSInputNode extends Node {
                     } catch (Exception e) {
                         throw new NodeExecutionException(this, "unable to interpret timeout", e);
                     }
-                    messages.add(runtime.nodeMain.subscriptionMessageQueues.get(topic).poll(timeout, TimeUnit.MILLISECONDS));
+                    String msg = runtime.nodeMain.subscriptionMessageQueues.get(topic).poll(timeout, TimeUnit.MILLISECONDS);
+                    if (msg != null) {
+                        messages.add(msg);
+                    }
                 } else
                     // this call will block until a message is received:
                     messages.add(runtime.nodeMain.subscriptionMessageQueues.get(topic).take());
