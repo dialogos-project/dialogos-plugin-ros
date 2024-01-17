@@ -7,10 +7,7 @@ import com.clt.diamant.graph.nodes.NodeExecutionException;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Value;
 import com.clt.script.exp.types.ListType;
-import com.clt.script.exp.values.IntValue;
-import com.clt.script.exp.values.ListValue;
-import com.clt.script.exp.values.RealValue;
-import com.clt.script.exp.values.StringValue;
+import com.clt.script.exp.values.*;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import org.xml.sax.SAXException;
@@ -35,7 +32,7 @@ public class ROSInputNode extends Node {
     public ROSInputNode() {
         addEdge(); // have one port for an outgoing edge
         setProperty(TOPIC, ""); // avoid running into null-pointers later
-        setProperty(RESULT_VAR, "");
+        setProperty(RESULT_VAR, null);
         setProperty(WAIT_FOR_MESSAGE, Boolean.TRUE);
         setProperty(TIMEOUT, "");
         addPropertyChangeListener(evt -> {
