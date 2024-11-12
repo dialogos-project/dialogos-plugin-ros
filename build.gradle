@@ -4,17 +4,23 @@ plugins {
   id 'application'
 }
 repositories {
-  mavenLocal()
-  jcenter()
   mavenCentral()
+  maven { url "https://repo.spring.io/libs-milestone/" }
+  maven { url "https://repo.spring.io/plugins-release/" }
   maven {
     url "http://github.com/rosjava/rosjava_mvn_repo/raw/master"
+  }
+  maven {
+    url "https://maven.repository.redhat.com/ga/"
+  }
+  maven {
+    url "https://artifacts.camunda.com/artifactory/public/"
   }
   maven { url "https://jitpack.io" }
 }
 
 dependencies {
-  implementation(group:'com.github.dialogos-project', name:'dialogos', version:'master-SNAPSHOT') {
+  implementation(group:'com.github.dialogos-project', name:'dialogos', version:'2.1.3') {
     exclude module: 'DialogOS_SphinxPlugin'
     exclude module: 'DialogOS_MaryTTSPlugin'
     exclude module: 'TTSClient'
@@ -23,7 +29,9 @@ dependencies {
     exclude module: 'com.clt.audio'
   }
   compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
-  runtime group:'com.github.dialogos-project', name:'dialogos', version:'master-SNAPSHOT'
+  runtime(group:'com.github.dialogos-project', name:'dialogos', version:'2.1.3') {
+    exclude module: 'DialogOS_MaryTTSPlugin'
+  }
 
   implementation 'org.slf4j:slf4j-api:1.7.24'
   testImplementation 'junit:junit:4.12'
@@ -31,7 +39,6 @@ dependencies {
 def version = '2.1.4'
 
 mainClassName = 'com.clt.dialogos.DialogOS'
-
 
 project.version = version
 
@@ -47,4 +54,3 @@ publishing {
         }
     }
 }
-
