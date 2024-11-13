@@ -16,6 +16,7 @@ repositories {
   maven {
     url "https://artifacts.camunda.com/artifactory/public/"
   }
+  localMaven()
   maven { url "https://jitpack.io" }
 }
 
